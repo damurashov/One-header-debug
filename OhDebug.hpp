@@ -40,20 +40,35 @@ struct Enabled : std::false_type {
 
 #endif  // OHDEBUG_ENABLE_ALL_BY_DEFAULT
 
+struct Stub {
+};
+
 template <int G, class ...Ts>
-void debug(Ts &&...aArgs)
+void debug(const char *, Stub, Ts &&...)
+{
+}
+
+template <int G, class T>
+void debug(const char *aName, T &&aT)
 {
 	if (!OhDebug::Enabled<G>::value) {
 		return;
 	}
 
-	using List = int[];
-	List{(void(std::cout << (aArgs) << ", "), 0)...};
+	std::cout << aName << "=" << aT << " ";
 }
 
 }  // namespace OhDebug
 
-# define ohdebug(context, ...) OhDebug::debug<context>(#__VA_ARGS__, ##__VA_ARGS__)
+# define ohdebug1__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug2__(context, ## __VA_ARGS__);
+# define ohdebug2__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug3__(context, ## __VA_ARGS__);
+# define ohdebug3__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug4__(context, ## __VA_ARGS__);
+# define ohdebug4__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug5__(context, ## __VA_ARGS__);
+# define ohdebug5__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug6__(context, ## __VA_ARGS__);
+# define ohdebug6__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebugend__(context, ## __VA_ARGS__);
+# define ohdebugend__(context, a, ...) OhDebug::debug<context>(#a, a)
+# define ohdebug(context, ...) ohdebug1__(context, ##__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, \
+	OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, Stub{}, Stub{}, Stub{})
 # define ohdebugstr(a) std::cout << (a) << std::endl;
 #else
 # define ohdebug(...)
