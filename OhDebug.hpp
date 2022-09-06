@@ -1,3 +1,10 @@
+//
+// OhDebug.hpp
+//
+// Created: 2022-09-06
+//  Author: Dmitry Murashov (dmtr <DOT> murashov <AT> GMAIL)
+//
+
 #if !defined(ONE_HEADER_DEBUG_HPP_)
 #define ONE_HEADER_DEBUG_HPP_
 
