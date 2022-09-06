@@ -73,7 +73,7 @@ void debug(const char *aName, T &&aT)
 # define ohdebug4__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug5__(context, ## __VA_ARGS__);
 # define ohdebug5__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug6__(context, ## __VA_ARGS__);
 # define ohdebug6__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebugend__(context, ## __VA_ARGS__);
-# define ohdebugend__(context, a, ...) OhDebug::debug<context>(#a, a)
+# define ohdebugend__(context, a, ...) OhDebug::debug<context>(#a, a); std::cout << std::endl
 # define ohdebug(context, ...) ohdebug1__(context, ##__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, \
 	OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
 # define ohdebugstr(a) std::cout << (a) << std::endl;
