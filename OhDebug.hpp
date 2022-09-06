@@ -8,7 +8,7 @@
 #if !defined(ONE_HEADER_DEBUG_HPP_)
 #define ONE_HEADER_DEBUG_HPP_
 
-#if 1 || OH_DEBUG
+#if 1
 
 #if !defined(OHDEBUG_ENABLE_ALL_BY_DEFAULT)
 # define OHDEBUG_ENABLE_ALL_BY_DEFAULT 1
