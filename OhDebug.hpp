@@ -55,7 +55,7 @@ void debug(const char *aName, T &&aT)
 		return;
 	}
 
-	std::cout << aName << "=" << aT << " ";
+	std::cout << aName << "=" << aT << "  ";
 }
 
 }  // namespace OhDebug
