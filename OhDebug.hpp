@@ -53,8 +53,6 @@ void debug(Ts &&...aArgs)
 
 }  // namespace OhDebug
 
-#define TOSTR(v) #v
-
 # define ohdebug(context, ...) OhDebug::debug<context>(#__VA_ARGS__, ##__VA_ARGS__)
 # define ohdebugstr(a) std::cout << (a) << std::endl;
 #else
