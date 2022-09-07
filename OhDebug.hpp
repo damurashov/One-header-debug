@@ -51,12 +51,12 @@ struct Stub {
 };
 
 template <int G, class ...Ts>
-void debug(const char *, Stub, Ts &&...)
+void ohdebugImpl(const char *, Stub, Ts &&...)
 {
 }
 
 template <int G, class T>
-void debug(const char *aName, T &&aT)
+void ohdebugImpl(const char *aName, T &&aT)
 {
 	if (!OhDebug::Enabled<G>::value) {
 		return;
@@ -67,13 +67,13 @@ void debug(const char *aName, T &&aT)
 
 }  // namespace OhDebug
 
-# define ohdebug1__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug2__(context, ## __VA_ARGS__);
-# define ohdebug2__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug3__(context, ## __VA_ARGS__);
-# define ohdebug3__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug4__(context, ## __VA_ARGS__);
-# define ohdebug4__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug5__(context, ## __VA_ARGS__);
-# define ohdebug5__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebug6__(context, ## __VA_ARGS__);
-# define ohdebug6__(context, a, ...) OhDebug::debug<context>(#a, a); ohdebugend__(context, ## __VA_ARGS__);
-# define ohdebugend__(context, a, ...) OhDebug::debug<context>(#a, a); std::cout << std::endl
+# define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug2__(context, ## __VA_ARGS__);
+# define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug3__(context, ## __VA_ARGS__);
+# define ohdebug3__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug4__(context, ## __VA_ARGS__);
+# define ohdebug4__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug5__(context, ## __VA_ARGS__);
+# define ohdebug5__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug6__(context, ## __VA_ARGS__);
+# define ohdebug6__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebugend__(context, ## __VA_ARGS__);
+# define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); std::cout << std::endl
 # define ohdebug(context, ...) ohdebug1__(context, ##__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, \
 	OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
 # define ohdebugstr(a) std::cout << (a) << std::endl;
