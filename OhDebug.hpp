@@ -138,6 +138,20 @@ void ohdebugImpl(const char *aName, T &&aT)
 }
 
 template <unsigned G>
+void ohdebugImpl(const char *aName, const char *aValue)
+{
+	if (!OhDebug::Enabled<G>::value) {
+		return;
+	}
+
+	if (aName[0] == '"') {  // aName is a stringified ("-quoted) const char. It, therefore, contains the same value as `aValue`.
+		std::cout << aName << "  ";
+	} else {
+		std::cout << aName << "=" << aValue << "  ";
+	}
+}
+
+template <unsigned G>
 void ohDebugPrintGroup(const char *aGroup)
 {
 	if (!OhDebug::Enabled<G>::value) {
