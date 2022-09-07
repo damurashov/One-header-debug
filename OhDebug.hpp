@@ -85,7 +85,11 @@ void ohDebugPrintNl()
 
 }  // namespace OhDebug
 
-# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<static_cast<int>(context)>(#context); \
+# define ohdebugflimpl(line) __FILE__ ":" #line
+# define ohdebugfl(line) ohdebugflimpl(line)
+
+# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<static_cast<int>(context)>(ohdebugfl(__LINE__)); \
+	OhDebug::ohDebugPrintGroup<static_cast<int>(context)>(#context); \
 	ohdebug1__(context, a, ## __VA_ARGS__)
 # define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
 	ohdebug2__(static_cast<int>(context), ## __VA_ARGS__);
