@@ -65,16 +65,36 @@ void ohdebugImpl(const char *aName, T &&aT)
 	std::cout << aName << "=" << aT << "  ";
 }
 
+template <int G>
+void ohDebugPrintGroup(const char *aGroup)
+{
+	if (!OhDebug::Enabled<G>::value) {
+		return;
+	}
+
+	std::cout << aGroup << ": ";
+}
+
+template <int G>
+void ohDebugPrintNl()
+{
+	if (OhDebug::Enabled<G>::value) {
+		std::cout << std::endl;
+	}
+}
+
 }  // namespace OhDebug
 
+# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<context>(#context); \
+	ohdebug1__(context, a, ## __VA_ARGS__)
 # define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug2__(context, ## __VA_ARGS__);
 # define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug3__(context, ## __VA_ARGS__);
 # define ohdebug3__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug4__(context, ## __VA_ARGS__);
 # define ohdebug4__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug5__(context, ## __VA_ARGS__);
 # define ohdebug5__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug6__(context, ## __VA_ARGS__);
 # define ohdebug6__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebugend__(context, ## __VA_ARGS__);
-# define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); std::cout << std::endl
-# define ohdebug(context, ...) ohdebug1__(context, ##__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, \
+# define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); OhDebug::ohDebugPrintNl<context>()
+# define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, \
 	OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
 # define ohdebugstr(a) std::cout << (a) << std::endl;
 #else
