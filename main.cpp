@@ -11,6 +11,6 @@ int main(void)
 	int b = 1;
 	ohdebug(0, 777, a, b);  // ...
 	ohdebug(1, 42, a, b);  // 42=42  a=0  b=1
-	ohdebug(arbitrary, 42, b, a);
+	ohdebug(arbitrary, 42, b, a, a, a, a, a, a, a);
 	ohdebugstr(string test, "just a string");
 }
