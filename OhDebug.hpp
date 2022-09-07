@@ -100,7 +100,7 @@ struct Enabled : std::true_type {
 # define ohdebuggroup(g) \
 	namespace OhDebug { \
 	template <> \
-	struct Enabled<g> : std::false_type { \
+	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#g)> : std::false_type { \
 	}; \
 	}  // namespace OhDebug
 #else
@@ -112,7 +112,7 @@ struct Enabled : std::false_type {
 # define ohdebuggroup(g) \
 	namespace OhDebug { \
 	template <> \
-	struct Enabled<g> : std::true_type { \
+	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#g)> : std::true_type { \
 	}; \
 	}  // namespace OhDebug
 
@@ -159,9 +159,9 @@ void ohDebugPrintNl()
 # define ohdebugflimpl(line) __FILE__ ":" #line
 # define ohdebugfl(line) ohdebugflimpl(line)
 
-# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<static_cast<int>(context)>(ohdebugfl(__LINE__)); \
-	OhDebug::ohDebugPrintGroup<static_cast<int>(context)>(#context); \
-	ohdebug1__(context, a, ## __VA_ARGS__)
+# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl(__LINE__)); \
+	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
+	ohdebug1__(OHDEBUG_COMPILE_TIME_CRC32_STR(#context), a, ## __VA_ARGS__)
 # define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
 	ohdebug2__(static_cast<int>(context), ## __VA_ARGS__);
 # define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
