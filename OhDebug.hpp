@@ -9,6 +9,7 @@
 #define ONE_HEADER_DEBUG_HPP_
 
 #if 1
+# define OHDEBUG  // Flag macro. Can be used to configure depending functionality
 
 #if !defined(OHDEBUG_ENABLE_ALL_BY_DEFAULT)
 # define OHDEBUG_ENABLE_ALL_BY_DEFAULT 1
