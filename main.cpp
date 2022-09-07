@@ -13,4 +13,8 @@ int main(void)
 	ohdebug(1, 42, a, b);  // 42=42  a=0  b=1
 	ohdebug(arbitrary, 42, b, a, a, a, a, a, a, "plain string", a);
 	ohdebugstr(string test, "just a string");
+
+	for (int i = 0; i < 20; ++i) {
+		ohdebugeveryn(10, {ohdebug(arbitrary, i);});
+	}
 }
