@@ -85,15 +85,22 @@ void ohDebugPrintNl()
 
 }  // namespace OhDebug
 
-# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<context>(#context); \
+# define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<static_cast<int>(context)>(#context); \
 	ohdebug1__(context, a, ## __VA_ARGS__)
-# define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug2__(context, ## __VA_ARGS__);
-# define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug3__(context, ## __VA_ARGS__);
-# define ohdebug3__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug4__(context, ## __VA_ARGS__);
-# define ohdebug4__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug5__(context, ## __VA_ARGS__);
-# define ohdebug5__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebug6__(context, ## __VA_ARGS__);
-# define ohdebug6__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); ohdebugend__(context, ## __VA_ARGS__);
-# define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<context>(#a, a); OhDebug::ohDebugPrintNl<context>()
+# define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	ohdebug2__(static_cast<int>(context), ## __VA_ARGS__);
+# define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	ohdebug3__(static_cast<int>(context), ## __VA_ARGS__);
+# define ohdebug3__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	ohdebug4__(static_cast<int>(context), ## __VA_ARGS__);
+# define ohdebug4__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	ohdebug5__(static_cast<int>(context), ## __VA_ARGS__);
+# define ohdebug5__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	ohdebug6__(static_cast<int>(context), ## __VA_ARGS__);
+# define ohdebug6__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	ohdebugend__(static_cast<int>(context), ## __VA_ARGS__);
+# define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<static_cast<int>(context)>(#a, a); \
+	OhDebug::ohDebugPrintNl<static_cast<int>(context)>()
 # define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, \
 	OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
 # define ohdebugstr(a) std::cout << (a) << std::endl;
