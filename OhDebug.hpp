@@ -89,8 +89,7 @@ struct MM<size, size, dummy>{
 };
 
 // This don't take into account the nul char
-#define OHDEBUG_COMPILE_TIME_CRC32_STR(x) (MM<sizeof(x)-1>::crc32(x))
-
+#define OHDEBUG_COMPILE_TIME_CRC32_STR(x) (OhDebug::MM<sizeof(x)-1>::crc32(x))
 
 #if OHDEBUG_ENABLE_ALL_BY_DEFAULT
 
