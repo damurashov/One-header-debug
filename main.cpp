@@ -2,6 +2,7 @@
 #include "OhDebug.hpp"
 
 ohdebuggroup(1)  // Explicitly allow printing group 1 (or disallow, if OHDEBUG_ENABLE_ALL_BY_DEFAULT=1)
+ohdebuggroup(arbitrary)
 
 int main(void)
 {
@@ -9,4 +10,5 @@ int main(void)
 	int b = 1;
 	ohdebug(0, 777, a, b);  // ...
 	ohdebug(1, 42, a, b);  // 42=42  a=0  b=1
+	ohdebug(arbitrary, 42, b, a);
 }
