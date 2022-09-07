@@ -17,6 +17,7 @@ The ...
 
 - Glob expressions for topic filtering
   - https://codereview.stackexchange.com/questions/108686/compile-time-wildcard-pattern-matching
+- void arguments
 
 # How to use it
 
