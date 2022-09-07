@@ -143,7 +143,7 @@ void ohDebugPrintGroup(const char *aGroup)
 		return;
 	}
 
-	std::cout << aGroup << ": ";
+	std::cout << aGroup << " :   ";
 }
 
 template <int G>
