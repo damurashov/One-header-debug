@@ -243,6 +243,7 @@ void ohDebugPrintNl()
 # define ohdebugstr(...)
 # define ohdebuggroup(...)
 # define ohdebugeveryn(...)
+# define ohdebugif(...)
 #endif
 
 #if defined(OHDEBUG_ENABLE_ALL_BY_DEFAULT)
