@@ -18,6 +18,9 @@ int main(void)
 	ohdebug(arbitrary, 42, b, ohdebugvoid(voidfn()), a, a, a, a, a, a, "plain string", a);
 	ohdebugstr(string test, "just a string");
 	ohdebugstr(string test, voidfn());
+	ohdebugsection({
+		std::cout << "This will only be printed if debug enabled" << std::endl;
+	});
 
 	for (int i = 0; i < 21; ++i) {
 		ohdebugeveryn(10, {ohdebug(arbitrary, i);});
