@@ -19,12 +19,13 @@ int main(void)
 	ohdebugstr(string test, "just a string");
 	ohdebugstr(string test, voidfn());
 
-	for (int i = 0; i < 20; ++i) {
+	for (int i = 0; i < 21; ++i) {
 		ohdebugeveryn(10, {ohdebug(arbitrary, i);});
 		ohdebugeveryn(-1, {ohdebug(arbitrary, i);});  // One can temporarily disable this without commenting the entire chunk
 		ohdebugonce(13, ohdebug(arbitrary, "once", i)); // Will only get triggered on 13-th (14-th) attempt
 		ohdebugif(i % 2 == 0, {
 			ohdebug(arbitrary, "conditional", i);
 		});
+		ohdebugassert(arbitrary, i < 20, i);
 	}
 }
