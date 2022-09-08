@@ -208,7 +208,7 @@ void ohDebugPrintNl()
 # define ohdebugstr(context, a) \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl(__LINE__)); \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
-	std::cout << (#a) << std::endl;
+	std::cout << ((void)a, #a) << std::endl;
 
 # define ohdebugeveryn(bump, ...) \
 	do { \
