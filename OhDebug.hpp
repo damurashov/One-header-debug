@@ -145,7 +145,7 @@ void ohdebugImpl(const char *aName, const char *aValue)
 		return;
 	}
 
-	if (aName[0] == '"') {  // aName is a stringified ("-quoted) const char. It, therefore, contains the same value as `aValue`.
+	if (aName[0] == '"' || aValue[0] == '\0') {  // aName is a stringified ("-quoted) const char. It, therefore, contains the same value as `aValue`.
 		std::cout << aName << "  ";
 	} else {
 		std::cout << aName << "=" << aValue << "  ";
@@ -172,8 +172,10 @@ void ohDebugPrintNl()
 
 }  // namespace OhDebug
 
+# define ohdebugstringify__(a) #a
 # define ohdebugflimpl(line) __FILE__ ":" #line
 # define ohdebugfl(line) ohdebugflimpl(line)
+# define ohdebugfvoid(a) (a, "")
 
 # define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl(__LINE__)); \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
@@ -206,7 +208,7 @@ void ohDebugPrintNl()
 # define ohdebugstr(context, a) \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl(__LINE__)); \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
-	std::cout << (a) << std::endl;
+	std::cout << (#a) << std::endl;
 
 # define ohdebugeveryn(bump, ...) \
 	do { \
