@@ -175,7 +175,7 @@ void ohDebugPrintNl()
 # define ohdebugstringify__(a) #a
 # define ohdebugflimpl(line) __FILE__ ":" #line
 # define ohdebugfl(line) ohdebugflimpl(line)
-# define ohdebugfvoid(a) (a, "")
+# define ohdebugvoid(a) (a, "")
 
 # define ohdebug0__(context, a, ...) OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl(__LINE__)); \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
