@@ -239,6 +239,11 @@ void ohDebugPrintNl()
 		} \
 	} while(0)
 
+# define ohdebugsection(...) \
+	do { \
+		__VA_ARGS__ ; \
+	} while (0)
+
 # define ohdebugassert(ctx, cond, ...) \
 	do { \
 		if (!(cond)) { \
