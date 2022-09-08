@@ -222,6 +222,15 @@ void ohDebugPrintNl()
 		} \
 	} while (0)
 
+# define ohdebugonce(hit, ...) \
+	do { \
+		static int n = 0; \
+		if (n == hit && hit >= 0) { \
+			__VA_ARGS__ ; \
+		}; \
+		++n; \
+	} while (0)
+
 #else
 # define ohdebug(...)
 # define ohdebugstr(...)
