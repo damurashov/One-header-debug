@@ -22,5 +22,6 @@ int main(void)
 	for (int i = 0; i < 20; ++i) {
 		ohdebugeveryn(10, {ohdebug(arbitrary, i);});
 		ohdebugeveryn(-1, {ohdebug(arbitrary, i);});  // One can temporarily disable this without commenting the entire chunk
+		ohdebugonce(13, ohdebug(arbitrary, "once", i)); // Will only get triggered on 13-th (14-th) attempt
 	}
 }
