@@ -5,14 +5,19 @@ ohdebuggroup(1)  // Explicitly allow printing group 1 (or disallow, if OHDEBUG_E
 ohdebuggroup(arbitrary)
 ohdebuggroup(string test)
 
+void voidfn() {
+	std::cout << "echo" << std::endl;
+}
+
 int main(void)
 {
 	int a = 0;
 	int b = 1;
 	ohdebug(0, 777, a, b);  // ...
 	ohdebug(1, 42, a, b);  // 42=42  a=0  b=1
-	ohdebug(arbitrary, 42, b, a, a, a, a, a, a, "plain string", a);
+	ohdebug(arbitrary, 42, b, ohdebugfvoid(voidfn()), a, a, a, a, a, a, "plain string", a);
 	ohdebugstr(string test, "just a string");
+	ohdebugstr(string test, voidfn());
 
 	for (int i = 0; i < 20; ++i) {
 		ohdebugeveryn(10, {ohdebug(arbitrary, i);});
