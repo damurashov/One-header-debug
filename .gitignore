@@ -1,2 +1,3 @@
 *.o
 ohdebug
+tools/generated
