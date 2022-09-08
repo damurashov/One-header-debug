@@ -19,6 +19,7 @@
 # include <tuple>
 # include <type_traits>
 # include <limits>
+# include <cassert>
 
 namespace OhDebug {
 
@@ -235,6 +236,14 @@ void ohDebugPrintNl()
 	do { \
 		if ( cond ) { \
 			__VA_ARGS__ ; \
+		} \
+	} while(0)
+
+# define ohdebugassert(ctx, cond, ...) \
+	do { \
+		if (!(cond)) { \
+			ohdebug(ctx, "assertion triggered", #cond, ## __VA_ARGS__ ) ; \
+			assert(false); \
 		} \
 	} while(0)
 
