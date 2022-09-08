@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-ARG_NUM = 20
+ARG_NUM = 50
 
 def gen():
 	for i in range(1, ARG_NUM):
@@ -14,7 +14,7 @@ def gen():
 	ohdebugend__(static_cast<unsigned>(context), ## __VA_ARGS__);
 """ % (ARG_NUM)
 
-	yield f" # define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, %s)\n" % ', '.join(["OhDebug::Stub{}"] * ARG_NUM)
+	yield f"# define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, %s)\n" % ', '.join(["OhDebug::Stub{}"] * ARG_NUM)
 
 
 def main():
