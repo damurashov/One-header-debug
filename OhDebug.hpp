@@ -231,6 +231,13 @@ void ohDebugPrintNl()
 		++n; \
 	} while (0)
 
+# define ohdebugif(cond, ...) \
+	do { \
+		if ( cond ) { \
+			__VA_ARGS__ ; \
+		} \
+	} while(0)
+
 #else
 # define ohdebug(...)
 # define ohdebugstr(...)
