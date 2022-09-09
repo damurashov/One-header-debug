@@ -19,6 +19,8 @@ The ...
   - https://codereview.stackexchange.com/questions/108686/compile-time-wildcard-pattern-matching
 - void arguments
 - naming: ohdebugsectionif, ohdebugif, ohdebugsectiononce, ohdebugsectionevery
+- catch API: accumulate variables and produce output only if a condition is not satisfied.
+  - Analagous assert API
 
 # How to use it
 
