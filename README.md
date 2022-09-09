@@ -22,6 +22,7 @@ The ...
 - catch API: accumulate variables and produce an output only if a condition is not satisfied.
   - Analagous assert API
 - constexpr group checker: split and check a group word-by-word
+- grouped sections
 
 # How to use it
 
