@@ -340,6 +340,8 @@ void ohDebugPrintNl()
 # define ohdebuggroup(...)
 # define ohdebugeveryn(...)
 # define ohdebugif(...)
+# define ohdebugsection(...)
+# define ohdebugassert(...)
 #endif
 
 #if defined(OHDEBUG_ENABLE_ALL_BY_DEFAULT)
