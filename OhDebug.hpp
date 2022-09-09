@@ -293,7 +293,7 @@ void ohDebugPrintNl()
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
 	std::cout << ((void)a, #a) << std::endl;
 
-# define ohdebugeveryn(bump, ...) \
+# define ohdebugsecteveryn(bump, ...) \
 	do { \
 		if (bump > 0) { \
 			static unsigned n = 0; \
@@ -314,14 +314,14 @@ void ohDebugPrintNl()
 		++n; \
 	} while (0)
 
-# define ohdebugif(cond, ...) \
+# define ohdebugsectif(cond, ...) \
 	do { \
 		if ( cond ) { \
 			__VA_ARGS__ ; \
 		} \
 	} while(0)
 
-# define ohdebugsection(...) \
+# define ohdebugsect(...) \
 	do { \
 		__VA_ARGS__ ; \
 	} while (0)
@@ -338,9 +338,9 @@ void ohDebugPrintNl()
 # define ohdebug(...)
 # define ohdebugstr(...)
 # define ohdebuggroup(...)
-# define ohdebugeveryn(...)
-# define ohdebugif(...)
-# define ohdebugsection(...)
+# define ohdebugsecteveryn(...)
+# define ohdebugsectif(...)
+# define ohdebugsect(...)
 # define ohdebugassert(...)
 #endif
 
