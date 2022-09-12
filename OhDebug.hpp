@@ -182,6 +182,7 @@ void ohDebugPrintNl()
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl__(__LINE__)); \
 	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
 	ohdebug1__(OHDEBUG_COMPILE_TIME_CRC32_STR(#context), a, ## __VA_ARGS__)
+
 # define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
 	ohdebug2__(static_cast<unsigned>(context), ## __VA_ARGS__);
 # define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
@@ -287,10 +288,7 @@ void ohDebugPrintNl()
 # define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
 	OhDebug::ohDebugPrintNl<static_cast<unsigned>(context)>()
 
-# define ohdebugstr(context, a) \
-	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl__(__LINE__)); \
-	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
-	std::cout << ((void)a, #a) << std::endl;
+# define ohdebugstr(context, a, ...) do {(void)a; } while (0); ohdebug(context, #a, ## __VA_ARGS__)
 
 # define ohdebugsecteveryn(bump, ...) \
 	do { \
