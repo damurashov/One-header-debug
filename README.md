@@ -23,6 +23,8 @@ The ...
   - Analagous assert API
 - constexpr group checker: split and check a group word-by-word
 - grouped sections
+- output
+  - tabulated output (indents)
 
 # How to use it
 
