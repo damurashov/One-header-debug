@@ -14,7 +14,7 @@ def gen():
 	ohdebugend__(static_cast<unsigned>(context), ## __VA_ARGS__);
 """ % (ARG_NUM)
 
-	yield f"# define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, %s)\n" % ', '.join(["OhDebug::Stub{}"] * ARG_NUM)
+	yield f"# define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, %s)\n" % ', '.join(["OhDebug::Stub{}"] * (ARG_NUM + 1))
 
 
 def main():
