@@ -15,6 +15,7 @@
 #  define OHDEBUG_ENABLE_ALL_BY_DEFAULT 1
 # endif  // OHDEBUG_ENABLE_ALL_BY_DEFAULT
 
+// TODO: Can be replaced w/ a constexpr call
 #define OHDEBUG_CHECK_ENABLED_(ctx) (OhDebug::Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#ctx)>::value)
 
 # include <iostream>
