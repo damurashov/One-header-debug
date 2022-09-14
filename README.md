@@ -30,6 +30,7 @@ The ...
     - Analagous assert API
 - output
   - (?) tabulated output (indents)
+  - shorten filename (absolute paths may be quite lengthy)
 
 # How to use it
 
