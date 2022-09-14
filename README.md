@@ -16,6 +16,8 @@ The ...
 # TODO
 
 - Project, README
+  - Features
+    - Filtering
   - API description
   - Use cases: what it is for
   - The core mechanism
