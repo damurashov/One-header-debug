@@ -18,11 +18,9 @@ The ...
 - Glob expressions for topic filtering
   - https://codereview.stackexchange.com/questions/108686/compile-time-wildcard-pattern-matching
 - void arguments
-- naming: ohdebugsectionif, ohdebugif, ohdebugsectiononce, ohdebugsectionevery
 - catch API: accumulate variables and produce an output only if a condition is not satisfied.
   - Analagous assert API
 - constexpr group checker: split and check a group word-by-word
-- grouped sections
 - output
   - tabulated output (indents)
 
