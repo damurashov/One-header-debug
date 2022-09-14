@@ -304,7 +304,7 @@ void ohDebugPrintNl()
 		} \
 	} while (0)
 
-# define ohdebugonce(ctx, hit, ...) \
+# define ohdebugsectonce(ctx, hit, ...) \
 	do { \
 		if (OHDEBUG_CHECK_ENABLED_(ctx)) { \
 			static int n = 0; \
