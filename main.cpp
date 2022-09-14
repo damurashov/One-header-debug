@@ -25,7 +25,7 @@ int main(void)
 	for (int i = 0; i < 21; ++i) {
 		ohdebugsecteveryn(arbitrary, 10, {ohdebug(arbitrary, i);});
 		ohdebugsecteveryn(arbitrary, -1, {ohdebug(arbitrary, i);});  // One can temporarily disable this without commenting the entire chunk
-		ohdebugonce(arbitrary, 13, ohdebug(arbitrary, "once", i)); // Will only get triggered on 13-th (14-th) attempt
+		ohdebugsectonce(arbitrary, 13, ohdebug(arbitrary, "once", i)); // Will only get triggered on 13-th (14-th) attempt
 		ohdebugsectif(arbitrary, i % 2 == 0, {
 			ohdebug(arbitrary, "conditional", i);
 		});
