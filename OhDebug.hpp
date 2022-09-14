@@ -304,6 +304,8 @@ void ohDebugPrintNl()
 		} \
 	} while (0)
 
+#define ohdebugeveryn(ctx, bump, ...) ohdebugsecteveryn(ctx, bump, ohdebug(ctx, ## __VA_ARGS__); )
+
 # define ohdebugsectonce(ctx, hit, ...) \
 	do { \
 		if (OHDEBUG_CHECK_ENABLED_(ctx)) { \
@@ -315,12 +317,16 @@ void ohDebugPrintNl()
 		} \
 	} while (0)
 
+#define ohdebugonce(ctx, hit, ...) ohdebugsectonce(ctx, hit, ohdebug(ctx, ## __VA_ARGS__); )
+
 # define ohdebugsectif(ctx, cond, ...) \
 	do { \
 		if (OHDEBUG_CHECK_ENABLED_(ctx) && cond) { \
 			__VA_ARGS__ ; \
 		} \
 	} while(0)
+
+#define ohdebugif(ctx, cond, ...) ohdebugsectif(ctx, cond, ohdebug(ctx, ## __VA_ARGS__); )
 
 # define ohdebugsect(ctx, ...) \
 	do { \
