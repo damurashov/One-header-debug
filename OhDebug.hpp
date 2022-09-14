@@ -15,6 +15,8 @@
 #  define OHDEBUG_ENABLE_ALL_BY_DEFAULT 1
 # endif  // OHDEBUG_ENABLE_ALL_BY_DEFAULT
 
+#define OHDEBUG_CHECK_ENABLED_(ctx) (OhDebug::Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#ctx)>::value)
+
 # include <iostream>
 # include <tuple>
 # include <type_traits>
@@ -290,9 +292,9 @@ void ohDebugPrintNl()
 
 # define ohdebugstr(context, a, ...) do {(void)a; } while (0); ohdebug(context, #a, ## __VA_ARGS__)
 
-# define ohdebugsecteveryn(bump, ...) \
+# define ohdebugsecteveryn(ctx, bump, ...) \
 	do { \
-		if (bump > 0) { \
+		if (OHDEBUG_CHECK_ENABLED_(ctx) && bump > 0) { \
 			static unsigned n = 0; \
 			if (n % bump == 0) { \
 				n = 0; \
@@ -302,30 +304,34 @@ void ohDebugPrintNl()
 		} \
 	} while (0)
 
-# define ohdebugonce(hit, ...) \
+# define ohdebugonce(ctx, hit, ...) \
 	do { \
-		static int n = 0; \
-		if (n == hit && hit >= 0) { \
-			__VA_ARGS__ ; \
-		}; \
-		++n; \
+		if (OHDEBUG_CHECK_ENABLED_(ctx)) { \
+			static int n = 0; \
+			if (n == hit && hit >= 0) { \
+				__VA_ARGS__ ; \
+			}; \
+			++n; \
+		} \
 	} while (0)
 
-# define ohdebugsectif(cond, ...) \
+# define ohdebugsectif(ctx, cond, ...) \
 	do { \
-		if ( cond ) { \
+		if (OHDEBUG_CHECK_ENABLED_(ctx) && cond) { \
 			__VA_ARGS__ ; \
 		} \
 	} while(0)
 
-# define ohdebugsect(...) \
+# define ohdebugsect(ctx, ...) \
 	do { \
-		__VA_ARGS__ ; \
+		if (OHDEBUG_CHECK_ENABLED_(ctx)) { \
+			__VA_ARGS__ ; \
+		} \
 	} while (0)
 
 # define ohdebugassert(ctx, cond, ...) \
 	do { \
-		if (!(cond)) { \
+		if (OHDEBUG_CHECK_ENABLED_(ctx) && !(cond)) { \
 			ohdebug(ctx, "assertion triggered", #cond, ## __VA_ARGS__ ) ; \
 			assert(false); \
 		} \
