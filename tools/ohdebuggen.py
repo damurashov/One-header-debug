@@ -4,7 +4,7 @@ import pathlib
 import os
 import sys
 
-ARG_NUM = 7
+ARG_NUM = 20
 FILEIN = "OhDebug.in"
 FILEOUT = "OhDebug.hpp"
 
@@ -48,12 +48,12 @@ def generate_stubs():
 		yield f"\n// Debug stubs \n"
 
 		map_args = map(lambda i: "arg%d" % i, range(ARG_NUM))
-		map_args_void = map(lambda i: "(void)arg%d" % i, range(ARG_NUM))
+		map_args_void = map(lambda i: "(void)(arg%d)" % i, range(ARG_NUM))
 
 		yield "#define ohdebugstubimpl_(%s, ...) \\\n\tdo {%s;} while(0)\n" % (", ".join(map_args), "; ".join(map_args_void))
-		yield "#define ohdebugstub_(...) ohdebugstubimpl_( __VA_ARGS__, %s)\n" % (', '.join(["OhDebug::Stub{}"] * (ARG_NUM + 1)))
+		yield "#define ohdebugstub_(...) ohdebugstubimpl_( __VA_ARGS__, %s)\n" % (', '.join(["OhDebug::Stub{}"] * (ARG_NUM * 2)))
 
-	return ''.join(generate_stubs_iter())
+	return ""
 
 
 def generate_ohdebugimpls():
