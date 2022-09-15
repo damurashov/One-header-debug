@@ -1,5 +1,5 @@
 CC = gcc
-CLEAN = *.o ohdebug
+CLEAN = *.o ohdebug ohdebugdisable
 
 build: header
 	$(CC) -c -Wall main.cpp -DOHDEBUG_DISABLE -o maindisable.o
