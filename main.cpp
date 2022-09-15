@@ -1,5 +1,7 @@
+#define OHDEBUG_DISABLE
 #define OHDEBUG_ENABLE_ALL_BY_DEFAULT 0  // Only print those groups which we explicitly allow. Remove it to restore to the original configuration (allow all by default)
 #include "OhDebug.hpp"
+#include <iostream>
 
 ohdebuggroup(1)  // Explicitly allow printing group 1 (or disallow, if OHDEBUG_ENABLE_ALL_BY_DEFAULT=1)
 ohdebuggroup(arbitrary)
@@ -18,9 +20,7 @@ int main(void)
 	ohdebug(arbitrary, 42, b, a, a, a, a, a, a, "plain string", a);
 	ohdebugstr(string test, "just a string");
 	ohdebugstr(string test, voidfn());
-	ohdebugsect({
-		std::cout << "This will only be printed if debug enabled" << std::endl;
-	});
+	ohdebugsect(sect, { std::cout << "This will only be printed if debug enabled" << std::endl; });
 
 	for (int i = 0; i < 21; ++i) {
 		ohdebugeveryn(arbitrary, 5, "every 5", i);
