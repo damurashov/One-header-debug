@@ -18,8 +18,8 @@ def gen():
 	yield f"\n// Debug stubs \n"
 
 	for i in range(ARG_NUM):
-		yield "ohdebugstub%d_(arg, ...) ((void)(arg));\\\n"\
-			"\tohdebugstub%d_(__VA_ARGS__)\n" % (i, i + 1)
+		yield "#define ohdebugstub%d_(arg, ...) ((void)(arg)); \\\n" \
+			"\tohdebugstub%d_( __VA_ARGS__ )\n" % (i, i + 1)
 	
 	yield "ohdebugstub%d_(...)" % (ARG_NUM)
 
