@@ -346,106 +346,106 @@ void ohDebugPrintNl()
 #else
 
 // Debug stubs
-ohdebugstub0_(arg, ...) ((void)(arg));\
-	ohdebugstub1_(__VA_ARGS__)
-ohdebugstub1_(arg, ...) ((void)(arg));\
-	ohdebugstub2_(__VA_ARGS__)
-ohdebugstub2_(arg, ...) ((void)(arg));\
-	ohdebugstub3_(__VA_ARGS__)
-ohdebugstub3_(arg, ...) ((void)(arg));\
-	ohdebugstub4_(__VA_ARGS__)
-ohdebugstub4_(arg, ...) ((void)(arg));\
-	ohdebugstub5_(__VA_ARGS__)
-ohdebugstub5_(arg, ...) ((void)(arg));\
-	ohdebugstub6_(__VA_ARGS__)
-ohdebugstub6_(arg, ...) ((void)(arg));\
-	ohdebugstub7_(__VA_ARGS__)
-ohdebugstub7_(arg, ...) ((void)(arg));\
-	ohdebugstub8_(__VA_ARGS__)
-ohdebugstub8_(arg, ...) ((void)(arg));\
-	ohdebugstub9_(__VA_ARGS__)
-ohdebugstub9_(arg, ...) ((void)(arg));\
-	ohdebugstub10_(__VA_ARGS__)
-ohdebugstub10_(arg, ...) ((void)(arg));\
-	ohdebugstub11_(__VA_ARGS__)
-ohdebugstub11_(arg, ...) ((void)(arg));\
-	ohdebugstub12_(__VA_ARGS__)
-ohdebugstub12_(arg, ...) ((void)(arg));\
-	ohdebugstub13_(__VA_ARGS__)
-ohdebugstub13_(arg, ...) ((void)(arg));\
-	ohdebugstub14_(__VA_ARGS__)
-ohdebugstub14_(arg, ...) ((void)(arg));\
-	ohdebugstub15_(__VA_ARGS__)
-ohdebugstub15_(arg, ...) ((void)(arg));\
-	ohdebugstub16_(__VA_ARGS__)
-ohdebugstub16_(arg, ...) ((void)(arg));\
-	ohdebugstub17_(__VA_ARGS__)
-ohdebugstub17_(arg, ...) ((void)(arg));\
-	ohdebugstub18_(__VA_ARGS__)
-ohdebugstub18_(arg, ...) ((void)(arg));\
-	ohdebugstub19_(__VA_ARGS__)
-ohdebugstub19_(arg, ...) ((void)(arg));\
-	ohdebugstub20_(__VA_ARGS__)
-ohdebugstub20_(arg, ...) ((void)(arg));\
-	ohdebugstub21_(__VA_ARGS__)
-ohdebugstub21_(arg, ...) ((void)(arg));\
-	ohdebugstub22_(__VA_ARGS__)
-ohdebugstub22_(arg, ...) ((void)(arg));\
-	ohdebugstub23_(__VA_ARGS__)
-ohdebugstub23_(arg, ...) ((void)(arg));\
-	ohdebugstub24_(__VA_ARGS__)
-ohdebugstub24_(arg, ...) ((void)(arg));\
-	ohdebugstub25_(__VA_ARGS__)
-ohdebugstub25_(arg, ...) ((void)(arg));\
-	ohdebugstub26_(__VA_ARGS__)
-ohdebugstub26_(arg, ...) ((void)(arg));\
-	ohdebugstub27_(__VA_ARGS__)
-ohdebugstub27_(arg, ...) ((void)(arg));\
-	ohdebugstub28_(__VA_ARGS__)
-ohdebugstub28_(arg, ...) ((void)(arg));\
-	ohdebugstub29_(__VA_ARGS__)
-ohdebugstub29_(arg, ...) ((void)(arg));\
-	ohdebugstub30_(__VA_ARGS__)
-ohdebugstub30_(arg, ...) ((void)(arg));\
-	ohdebugstub31_(__VA_ARGS__)
-ohdebugstub31_(arg, ...) ((void)(arg));\
-	ohdebugstub32_(__VA_ARGS__)
-ohdebugstub32_(arg, ...) ((void)(arg));\
-	ohdebugstub33_(__VA_ARGS__)
-ohdebugstub33_(arg, ...) ((void)(arg));\
-	ohdebugstub34_(__VA_ARGS__)
-ohdebugstub34_(arg, ...) ((void)(arg));\
-	ohdebugstub35_(__VA_ARGS__)
-ohdebugstub35_(arg, ...) ((void)(arg));\
-	ohdebugstub36_(__VA_ARGS__)
-ohdebugstub36_(arg, ...) ((void)(arg));\
-	ohdebugstub37_(__VA_ARGS__)
-ohdebugstub37_(arg, ...) ((void)(arg));\
-	ohdebugstub38_(__VA_ARGS__)
-ohdebugstub38_(arg, ...) ((void)(arg));\
-	ohdebugstub39_(__VA_ARGS__)
-ohdebugstub39_(arg, ...) ((void)(arg));\
-	ohdebugstub40_(__VA_ARGS__)
-ohdebugstub40_(arg, ...) ((void)(arg));\
-	ohdebugstub41_(__VA_ARGS__)
-ohdebugstub41_(arg, ...) ((void)(arg));\
-	ohdebugstub42_(__VA_ARGS__)
-ohdebugstub42_(arg, ...) ((void)(arg));\
-	ohdebugstub43_(__VA_ARGS__)
-ohdebugstub43_(arg, ...) ((void)(arg));\
-	ohdebugstub44_(__VA_ARGS__)
-ohdebugstub44_(arg, ...) ((void)(arg));\
-	ohdebugstub45_(__VA_ARGS__)
-ohdebugstub45_(arg, ...) ((void)(arg));\
-	ohdebugstub46_(__VA_ARGS__)
-ohdebugstub46_(arg, ...) ((void)(arg));\
-	ohdebugstub47_(__VA_ARGS__)
-ohdebugstub47_(arg, ...) ((void)(arg));\
-	ohdebugstub48_(__VA_ARGS__)
-ohdebugstub48_(arg, ...) ((void)(arg));\
-	ohdebugstub49_(__VA_ARGS__)
-ohdebugstub49_(arg, ...) ((void)(arg));\
-	ohdebugstub50_(__VA_ARGS__)
+#define ohdebugstub0_(arg, ...) ((void)(arg)); \
+	ohdebugstub1_( __VA_ARGS__ )
+#define ohdebugstub1_(arg, ...) ((void)(arg)); \
+	ohdebugstub2_( __VA_ARGS__ )
+#define ohdebugstub2_(arg, ...) ((void)(arg)); \
+	ohdebugstub3_( __VA_ARGS__ )
+#define ohdebugstub3_(arg, ...) ((void)(arg)); \
+	ohdebugstub4_( __VA_ARGS__ )
+#define ohdebugstub4_(arg, ...) ((void)(arg)); \
+	ohdebugstub5_( __VA_ARGS__ )
+#define ohdebugstub5_(arg, ...) ((void)(arg)); \
+	ohdebugstub6_( __VA_ARGS__ )
+#define ohdebugstub6_(arg, ...) ((void)(arg)); \
+	ohdebugstub7_( __VA_ARGS__ )
+#define ohdebugstub7_(arg, ...) ((void)(arg)); \
+	ohdebugstub8_( __VA_ARGS__ )
+#define ohdebugstub8_(arg, ...) ((void)(arg)); \
+	ohdebugstub9_( __VA_ARGS__ )
+#define ohdebugstub9_(arg, ...) ((void)(arg)); \
+	ohdebugstub10_( __VA_ARGS__ )
+#define ohdebugstub10_(arg, ...) ((void)(arg)); \
+	ohdebugstub11_( __VA_ARGS__ )
+#define ohdebugstub11_(arg, ...) ((void)(arg)); \
+	ohdebugstub12_( __VA_ARGS__ )
+#define ohdebugstub12_(arg, ...) ((void)(arg)); \
+	ohdebugstub13_( __VA_ARGS__ )
+#define ohdebugstub13_(arg, ...) ((void)(arg)); \
+	ohdebugstub14_( __VA_ARGS__ )
+#define ohdebugstub14_(arg, ...) ((void)(arg)); \
+	ohdebugstub15_( __VA_ARGS__ )
+#define ohdebugstub15_(arg, ...) ((void)(arg)); \
+	ohdebugstub16_( __VA_ARGS__ )
+#define ohdebugstub16_(arg, ...) ((void)(arg)); \
+	ohdebugstub17_( __VA_ARGS__ )
+#define ohdebugstub17_(arg, ...) ((void)(arg)); \
+	ohdebugstub18_( __VA_ARGS__ )
+#define ohdebugstub18_(arg, ...) ((void)(arg)); \
+	ohdebugstub19_( __VA_ARGS__ )
+#define ohdebugstub19_(arg, ...) ((void)(arg)); \
+	ohdebugstub20_( __VA_ARGS__ )
+#define ohdebugstub20_(arg, ...) ((void)(arg)); \
+	ohdebugstub21_( __VA_ARGS__ )
+#define ohdebugstub21_(arg, ...) ((void)(arg)); \
+	ohdebugstub22_( __VA_ARGS__ )
+#define ohdebugstub22_(arg, ...) ((void)(arg)); \
+	ohdebugstub23_( __VA_ARGS__ )
+#define ohdebugstub23_(arg, ...) ((void)(arg)); \
+	ohdebugstub24_( __VA_ARGS__ )
+#define ohdebugstub24_(arg, ...) ((void)(arg)); \
+	ohdebugstub25_( __VA_ARGS__ )
+#define ohdebugstub25_(arg, ...) ((void)(arg)); \
+	ohdebugstub26_( __VA_ARGS__ )
+#define ohdebugstub26_(arg, ...) ((void)(arg)); \
+	ohdebugstub27_( __VA_ARGS__ )
+#define ohdebugstub27_(arg, ...) ((void)(arg)); \
+	ohdebugstub28_( __VA_ARGS__ )
+#define ohdebugstub28_(arg, ...) ((void)(arg)); \
+	ohdebugstub29_( __VA_ARGS__ )
+#define ohdebugstub29_(arg, ...) ((void)(arg)); \
+	ohdebugstub30_( __VA_ARGS__ )
+#define ohdebugstub30_(arg, ...) ((void)(arg)); \
+	ohdebugstub31_( __VA_ARGS__ )
+#define ohdebugstub31_(arg, ...) ((void)(arg)); \
+	ohdebugstub32_( __VA_ARGS__ )
+#define ohdebugstub32_(arg, ...) ((void)(arg)); \
+	ohdebugstub33_( __VA_ARGS__ )
+#define ohdebugstub33_(arg, ...) ((void)(arg)); \
+	ohdebugstub34_( __VA_ARGS__ )
+#define ohdebugstub34_(arg, ...) ((void)(arg)); \
+	ohdebugstub35_( __VA_ARGS__ )
+#define ohdebugstub35_(arg, ...) ((void)(arg)); \
+	ohdebugstub36_( __VA_ARGS__ )
+#define ohdebugstub36_(arg, ...) ((void)(arg)); \
+	ohdebugstub37_( __VA_ARGS__ )
+#define ohdebugstub37_(arg, ...) ((void)(arg)); \
+	ohdebugstub38_( __VA_ARGS__ )
+#define ohdebugstub38_(arg, ...) ((void)(arg)); \
+	ohdebugstub39_( __VA_ARGS__ )
+#define ohdebugstub39_(arg, ...) ((void)(arg)); \
+	ohdebugstub40_( __VA_ARGS__ )
+#define ohdebugstub40_(arg, ...) ((void)(arg)); \
+	ohdebugstub41_( __VA_ARGS__ )
+#define ohdebugstub41_(arg, ...) ((void)(arg)); \
+	ohdebugstub42_( __VA_ARGS__ )
+#define ohdebugstub42_(arg, ...) ((void)(arg)); \
+	ohdebugstub43_( __VA_ARGS__ )
+#define ohdebugstub43_(arg, ...) ((void)(arg)); \
+	ohdebugstub44_( __VA_ARGS__ )
+#define ohdebugstub44_(arg, ...) ((void)(arg)); \
+	ohdebugstub45_( __VA_ARGS__ )
+#define ohdebugstub45_(arg, ...) ((void)(arg)); \
+	ohdebugstub46_( __VA_ARGS__ )
+#define ohdebugstub46_(arg, ...) ((void)(arg)); \
+	ohdebugstub47_( __VA_ARGS__ )
+#define ohdebugstub47_(arg, ...) ((void)(arg)); \
+	ohdebugstub48_( __VA_ARGS__ )
+#define ohdebugstub48_(arg, ...) ((void)(arg)); \
+	ohdebugstub49_( __VA_ARGS__ )
+#define ohdebugstub49_(arg, ...) ((void)(arg)); \
+	ohdebugstub50_( __VA_ARGS__ )
 ohdebugstub50_(...)
 
 # define ohdebug(ctx, ...) ohdebugstub0_(__VA_ARGS__)
