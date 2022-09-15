@@ -15,6 +15,14 @@ def gen():
 """ % (ARG_NUM)
 
 	yield f"# define ohdebug(context, ...) ohdebug0__(context, ##__VA_ARGS__, %s)\n" % ', '.join(["OhDebug::Stub{}"] * (ARG_NUM + 1))
+	yield f"\n// Debug stubs \n"
+
+	for i in range(ARG_NUM):
+		yield "ohdebugstub%d_(arg, ...) ((void)(arg));\\\n\
+			ohdebugstub%d_(__VA_ARGS__)\n" % (i, i + 1)
+	
+	yield "ohdebugstub%d_(...)" % (ARG_NUM)
+
 
 
 def main():
