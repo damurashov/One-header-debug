@@ -198,8 +198,34 @@ void ohDebugPrintNl()
 # define ohdebug6__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
 	ohdebug7__(static_cast<unsigned>(context), ## __VA_ARGS__);
 # define ohdebug7__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug8__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug8__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug9__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug9__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug10__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug10__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug11__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug11__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug12__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug12__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug13__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug13__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug14__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug14__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug15__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug15__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug16__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug16__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug17__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug17__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug18__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug18__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug19__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug19__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
+	ohdebug20__(static_cast<unsigned>(context), ## __VA_ARGS__);
+# define ohdebug20__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
 	ohdebugend__(static_cast<unsigned>(context), ## __VA_ARGS__);
-#define ohdebug(...) ohdebug0__(__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
+#define ohdebug(...) ohdebug0__(__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
 
 
 # define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
@@ -265,18 +291,13 @@ struct Stub{};
 }  // namespace OhDebug
 
 
-// Debug stubs 
-#define ohdebugstubimpl_(arg0, arg1, arg2, arg3, arg4, arg5, arg6, ...) \
-	do {(void)arg0; (void)arg1; (void)arg2; (void)arg3; (void)arg4; (void)arg5; (void)arg6;} while(0)
-#define ohdebugstub_(...) ohdebugstubimpl_( __VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
 
-
-# define ohdebug(ctx, ...) ohdebugstub_(__VA_ARGS__)
-# define ohdebugstr(ctx, ...) ohdebugstub_(__VA_ARGS__)
+# define ohdebug(...)
+# define ohdebugstr(ctx, str) (void)(str)
 # define ohdebuggroup(...)
-# define ohdebugassert(ctx, cond, ...) ohdebugstub_(__VA_ARGS__)
+# define ohdebugassert(...)
 # define ohdebugsecteveryn(...)
-# define ohdebugeveryn(ctx, bump, ...)
+# define ohdebugeveryn(...)
 # define ohdebugsectif(...)
 # define ohdebugif(...)
 # define ohdebugsectonce(...)

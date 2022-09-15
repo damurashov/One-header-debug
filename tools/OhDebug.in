@@ -251,12 +251,12 @@ struct Stub{};
 
 @OHDEBUG_STUBS@
 
-# define ohdebug(ctx, ...) ohdebugstub_(__VA_ARGS__)
-# define ohdebugstr(ctx, ...) ohdebugstub_(__VA_ARGS__)
+# define ohdebug(...)
+# define ohdebugstr(ctx, str) (void)(str)
 # define ohdebuggroup(...)
-# define ohdebugassert(ctx, cond, ...) ohdebugstub_(__VA_ARGS__)
+# define ohdebugassert(...)
 # define ohdebugsecteveryn(...)
-# define ohdebugeveryn(ctx, bump, ...)
+# define ohdebugeveryn(...)
 # define ohdebugsectif(...)
 # define ohdebugif(...)
 # define ohdebugsectonce(...)
