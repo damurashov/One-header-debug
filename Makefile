@@ -1,9 +1,11 @@
 CC = gcc
 CLEAN = *.o ohdebug
 
-build:
-	$(CC) -c -Wall main.cpp
-	$(CC) -o ohdebug main.cpp -lstdc++ -fPIC
+build: header
+	$(CC) -c -Wall main.cpp -DOHDEBUG_DISABLE -o maindisable.o
+	$(CC) -o ohdebugdisable maindisable.o -lstdc++ -fPIC
+	$(CC) -c -Wall main.cpp -o main.o
+	$(CC) -o ohdebug main.o -lstdc++ -fPIC
 
 header:
 	rm -f Ohdebug.hpp
