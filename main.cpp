@@ -1,4 +1,3 @@
-#define OHDEBUG_DISABLE
 #define OHDEBUG_ENABLE_ALL_BY_DEFAULT 0  // Only print those groups which we explicitly allow. Remove it to restore to the original configuration (allow all by default)
 #include "OhDebug.hpp"
 #include <iostream>
