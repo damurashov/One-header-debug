@@ -28,6 +28,7 @@ The ...
 - API
   - catch API: accumulate variables and produce an output only if a condition is not satisfied.
     - Analagous assert API
+  - enabling: `ohdebug1`, `ohdebug0` instead of `ohdebuggroup`
 - output
   - (?) tabulated output (indents)
   - shorten filename (absolute paths may be quite lengthy)
