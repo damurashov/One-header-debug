@@ -30,6 +30,10 @@ import functools
 CPP_FILES_EXTENSIONS = [".cpp", ".c", ".hpp", ".h", ".cc", ".cxx"]
 
 
+def line_ohdebug_beginning_match(line):
+	return re.match(r"^\s*ohdebug\w*\(", line) and \
+		not re.match(r"^\s*ohdebugstr\(", line)
+
 def _arg_parse():
 
 	def path_type(s):
@@ -85,7 +89,7 @@ def file_lines_filter(file):
 
 	for line in file_lines_iter(str(file)):
 		if state == state_search:
-			if re.match(r"^\s*ohdebug\w*\(", line):
+			if line_ohdebug_beginning_match(line):
 				state = state_balance
 			else:
 				yield line
