@@ -22,6 +22,7 @@ The ...
   - Use cases: what it is for
   - The core mechanism
   - Limitations
+  - Synchronized output
 - Glob expressions for topic filtering
   - (OR) constexpr group checker: split and check a group word-by-word
   - https://codereview.stackexchange.com/questions/108686/compile-time-wildcard-pattern-matching
