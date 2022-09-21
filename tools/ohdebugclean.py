@@ -36,7 +36,7 @@ def _arg_parse():
 		return pathlib.Path(s)
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--path", "-p", type=path_type, default=".", help="Working directory")
+	parser.add_argument("path", type=path_type, help="Working directory")
 	args = parser.parse_args()
 
 	return args
