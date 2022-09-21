@@ -28,7 +28,8 @@ import functools
 
 
 CPP_FILES_EXTENSIONS = [".cpp", ".c", ".hpp", ".h", ".cc", ".cxx"]
-
+DIR_FILTER = [".git"]
+ARGS = None
 
 def line_ohdebug_beginning_match(line):
 	return re.match(r"^\s*ohdebug\w*\(", line) and \
@@ -41,13 +42,29 @@ def _arg_parse():
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("path", type=path_type, help="Working directory")
+	parser.add_argument("--ignorepath", "-i", type=path_type, nargs="*", help="Paths to ignore", default=[])
 	args = parser.parse_args()
 
 	return args
 
 
+def dir_filter(dirname):
+	global ARGS
+	path = pathlib.Path(dirname)
+
+	for f in DIR_FILTER + ARGS.ignorepath:
+		if str(f) in str(path):
+			print("Ignoring", path.resolve())
+			return False
+
+	return True
+
+
 def find_cpp_files_iter(root):
 	for dirname, subdirs, files in os.walk(root):
+		if not dir_filter(dirname):
+			continue
+
 		for fname in files:
 			path = pathlib.Path(os.path.join(dirname, fname))
 
@@ -118,8 +135,9 @@ def dir_rewrite_cpp_files(root_dir):
 
 
 def main():
-	args = _arg_parse()
-	dir_rewrite_cpp_files(args.path)
+	global ARGS
+	ARGS = _arg_parse()
+	dir_rewrite_cpp_files(ARGS.path)
 
 
 if __name__ == "__main__":
