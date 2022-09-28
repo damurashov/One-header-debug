@@ -30,6 +30,8 @@ The ...
   - catch API: accumulate variables and produce an output only if a condition is not satisfied.
     - Analagous assert API
   - enabling: `ohdebug1`, `ohdebug0` instead of `ohdebuggroup`
+    - explicit enable/disable
+    - enable/disable override chains using compile-time counters (if compatible w/ msvs and gcc)
 - output
   - (?) tabulated output (indents)
   - shorten filename (absolute paths may be quite lengthy)
