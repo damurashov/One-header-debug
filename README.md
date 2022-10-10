@@ -18,6 +18,7 @@ The ...
 - Project, README
   - Features
     - Filtering
+	  - Debug / verbose
   - API description
   - Use cases: what it is for
   - The core mechanism
