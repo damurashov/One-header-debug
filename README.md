@@ -19,6 +19,9 @@ The ...
   - Features
     - Filtering
 	  - Debug / verbose
+	- Porting
+	  - Add an option to place hooks to replace std::cout calls w/ some
+		platform-dependent solution
   - API description
   - Use cases: what it is for
   - The core mechanism
