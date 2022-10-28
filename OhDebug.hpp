@@ -182,7 +182,7 @@ constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
 {
 	return idel >= knPathDelimiters ? false :
 		kPathDelimiters[idel] == ch ? true :
-		false;
+		charIsPathDelimiter(ch, idel + 1);
 }
 
 constexpr std::size_t filePathToFilePos(const char *file, std::size_t pos)
