@@ -185,11 +185,16 @@ constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
 		false;
 }
 
+constexpr std::size_t filePathToFilePos(const char *file, std::size_t pos)
+{
+	return pos == 0 ? pos :
+		charIsPathDelimiter(file[pos]) ? pos :
+		pos - 1;
+}
+
 constexpr const char *filePathToFileImpl(const char *file, std::size_t pos)
 {
-	return pos == 0 ? file :
-		charIsPathDelimiter(file[pos]) ? file + pos :
-		filePathToFileImpl(file, pos - 1);
+	return file + filePathToFilePos(file, pos);
 }
 
 }  // namespace OhDebug
