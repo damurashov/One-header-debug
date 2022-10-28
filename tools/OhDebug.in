@@ -23,6 +23,7 @@
 # include <type_traits>
 # include <limits>
 # include <cassert>
+# include <cstdint>
 
 namespace OhDebug {
 
@@ -174,10 +175,28 @@ void ohDebugPrintNl()
 	}
 }
 
+constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
+{
+	constexpr const char kPathDelimiters[] = {'\\', '/'};
+	constexpr const char knPathDelimiters = sizeof(kPathDelimiters);
+
+	return idel >= knPathDelimiters ? false :
+		kPathDelimiters[idel] == ch ? true :
+		false;
+}
+
+constexpr const char *filePathToFileImpl(const char *file, std::size_t pos)
+{
+	return pos == 0 ? file :
+		charIsPathDelimiter(file[pos]) ? file :
+		filePathToFileImpl(file, pos - 1);
+}
+
 }  // namespace OhDebug
 
+# define ohdebugfilepathtofile(a) OhDebug::filePathToFileImpl(a, sizeof(a))
 # define ohdebugstringify__(a) #a
-# define ohdebugflimpl__(line) __FILE__ ":" #line
+# define ohdebugflimpl__(line) ohdebugfilepathtofile(__FILE__ ":" #line)
 # define ohdebugfl__(line) ohdebugflimpl__(line)
 
 # define ohdebug0__(context, a, ...) \
