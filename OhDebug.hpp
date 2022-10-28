@@ -199,7 +199,7 @@ constexpr const char *filePathToFileImpl(const char *file, std::size_t pos)
 
 }  // namespace OhDebug
 
-# define ohdebugfilepathtofile(a) OhDebug::filePathToFileImpl(a, sizeof(a))
+# define ohdebugfilepathtofile(a) OhDebug::filePathToFileImpl(a, sizeof(a) - 1)
 # define ohdebugstringify__(a) #a
 # define ohdebugflimpl__(line) ohdebugfilepathtofile(__FILE__ ":" #line)
 # define ohdebugfl__(line) ohdebugflimpl__(line)
