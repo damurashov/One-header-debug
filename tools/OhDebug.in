@@ -175,11 +175,11 @@ void ohDebugPrintNl()
 	}
 }
 
+constexpr const char kPathDelimiters[] = {'\\', '/'};
+constexpr const char knPathDelimiters = sizeof(kPathDelimiters);
+
 constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
 {
-	constexpr const char kPathDelimiters[] = {'\\', '/'};
-	constexpr const char knPathDelimiters = sizeof(kPathDelimiters);
-
 	return idel >= knPathDelimiters ? false :
 		kPathDelimiters[idel] == ch ? true :
 		false;
