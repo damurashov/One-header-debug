@@ -188,7 +188,7 @@ constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
 constexpr const char *filePathToFileImpl(const char *file, std::size_t pos)
 {
 	return pos == 0 ? file :
-		charIsPathDelimiter(file[pos]) ? file :
+		charIsPathDelimiter(file[pos]) ? file + pos :
 		filePathToFileImpl(file, pos - 1);
 }
 
