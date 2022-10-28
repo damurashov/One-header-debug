@@ -23,6 +23,7 @@
 # include <type_traits>
 # include <limits>
 # include <cassert>
+# include <cstdint>
 
 namespace OhDebug {
 
@@ -79,19 +80,19 @@ static constexpr unsigned int crc_table[256] = {
 
 template<int size, int idx = 0, class dummy = void>
 struct MM{
-  static constexpr unsigned int crc32(const char * str, unsigned int prev_crc = 0xFFFFFFFF)
-  {
-	  return MM<size, idx+1>::crc32(str, (prev_crc >> 8) ^ crc_table[(prev_crc ^ str[idx]) & 0xFF] );
-  }
+	static constexpr unsigned int crc32(const char * str, unsigned int prev_crc = 0xFFFFFFFF)
+	{
+		return MM<size, idx+1>::crc32(str, (prev_crc >> 8) ^ crc_table[(prev_crc ^ str[idx]) & 0xFF] );
+	}
 };
 
 // This is the stop-recursion function
 template<int size, class dummy>
 struct MM<size, size, dummy>{
-  static constexpr unsigned int crc32(const char * str, unsigned int prev_crc = 0xFFFFFFFF)
-  {
-	  return prev_crc^ 0xFFFFFFFF;
-  }
+	static constexpr unsigned int crc32(const char *, unsigned int prev_crc = 0xFFFFFFFF)
+	{
+		return prev_crc^ 0xFFFFFFFF;
+	}
 };
 
 // This don't take into account the nul char
@@ -174,10 +175,28 @@ void ohDebugPrintNl()
 	}
 }
 
+constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
+{
+	constexpr const char kPathDelimiters[] = {'\\', '/'};
+	constexpr const char knPathDelimiters = sizeof(kPathDelimiters);
+
+	return idel >= knPathDelimiters ? false :
+		kPathDelimiters[idel] == ch ? true :
+		false;
+}
+
+constexpr const char *filePathToFileImpl(const char *file, std::size_t pos)
+{
+	return pos == 0 ? file :
+		charIsPathDelimiter(file[pos]) ? file :
+		filePathToFileImpl(file, pos - 1);
+}
+
 }  // namespace OhDebug
 
+# define ohdebugfilepathtofile(a) OhDebug::filePathToFileImpl(a, sizeof(a))
 # define ohdebugstringify__(a) #a
-# define ohdebugflimpl__(line) __FILE__ ":" #line
+# define ohdebugflimpl__(line) ohdebugfilepathtofile(__FILE__ ":" #line)
 # define ohdebugfl__(line) ohdebugflimpl__(line)
 
 # define ohdebug0__(context, a, ...) \
