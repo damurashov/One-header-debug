@@ -8,22 +8,30 @@
 #if !defined(ONE_HEADER_DEBUG_HPP_)
 #define ONE_HEADER_DEBUG_HPP_
 
-#if 1 && !defined(OHDEBUG_DISABLE)  // OHDEBUG_DISABLE can be used to disable OHDEBUG locally
-# define OHDEBUG  // Flag macro. Can be used to configure depending functionality
-
-# if !defined(OHDEBUG_ENABLE_ALL_BY_DEFAULT)
-#  define OHDEBUG_ENABLE_ALL_BY_DEFAULT 1
-# endif  // OHDEBUG_ENABLE_ALL_BY_DEFAULT
-
-// TODO: Can be replaced w/ a constexpr call
-#define OHDEBUG_CHECK_ENABLED_(ctx) (OhDebug::Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#ctx)>::value)
-
+#if defined(OHDEBUG_PORT_ENABLE) && !defined(OHDEBUG_PORT_PRINT)
 # include <iostream>
-# include <tuple>
-# include <type_traits>
-# include <limits>
-# include <cassert>
-# include <cstdint>
+
+namespace OhDebug {
+
+static inline void print()
+{
+	std::cout << std::endl;
+}
+
+template <class T1, class ...Ts>
+static inline void print(T1 &&aArg, Ts &&...aArgs)
+{
+	std::cout << aArg << " ";
+	print(aArgs...);
+}
+
+}  // OhDebug
+
+# define OHDEBUG_PORT_PRINT(a1, ...) \
+	do { \
+		OhDebug::print(a1, ## __VA_ARGS__ ); \
+	} while (0);
+#endif  // defined(OHDEBUG_PORT_ENABLE) && !defined(OHDEBUG_PORT_PRINT)
 
 namespace OhDebug {
 
@@ -95,242 +103,38 @@ struct MM<size, size, dummy>{
 	}
 };
 
-// This don't take into account the nul char
-#define OHDEBUG_COMPILE_TIME_CRC32_STR(x) (OhDebug::MM<sizeof(x)-1>::crc32(x))
-
-#if OHDEBUG_ENABLE_ALL_BY_DEFAULT
-
-template <unsigned G>
-struct Enabled : std::true_type {
-};
-
-# define ohdebuggroup(g) \
-	namespace OhDebug { \
-	template <> \
-	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#g)> : std::false_type { \
-	}; \
-	}  // namespace OhDebug
-#else
-
 template <unsigned G>
 struct Enabled : std::false_type {
 };
 
-# define ohdebuggroup(g) \
-	namespace OhDebug { \
-	template <> \
-	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(#g)> : std::true_type { \
-	}; \
-	}  // namespace OhDebug
-
-#endif  // OHDEBUG_ENABLE_ALL_BY_DEFAULT
-
 struct Stub {
 };
 
-template <unsigned G, class ...Ts>
-void ohdebugImpl(const char *, Stub, Ts &&...)
-{
-}
-
-template <unsigned G, class T>
-void ohdebugImpl(const char *aName, T &&aT)
-{
-	if (!OhDebug::Enabled<G>::value) {
-		return;
-	}
-
-	std::cout << aName << "=" << aT << "  ";
-}
-
-template <unsigned G>
-void ohdebugImpl(const char *aName, const char *aValue)
-{
-	if (!OhDebug::Enabled<G>::value) {
-		return;
-	}
-
-	if (aName[0] == '"' || aValue[0] == '\0') {  // aName is a stringified ("-quoted) const char. It, therefore, contains the same value as `aValue`.
-		std::cout << aName << "  ";
-	} else {
-		std::cout << aName << "=" << aValue << "  ";
-	}
-}
-
-template <unsigned G>
-void ohDebugPrintGroup(const char *aGroup)
-{
-	if (!OhDebug::Enabled<G>::value) {
-		return;
-	}
-
-	std::cout << aGroup << " :   ";
-}
-
-template <unsigned G>
-void ohDebugPrintNl()
-{
-	if (OhDebug::Enabled<G>::value) {
-		std::cout << std::endl;
-	}
-}
-
-constexpr const char kPathDelimiters[] = {'\\', '/'};
-constexpr const char knPathDelimiters = sizeof(kPathDelimiters);
-
-constexpr bool charIsPathDelimiter(char ch, std::size_t idel = 0)
-{
-	return idel >= knPathDelimiters ? false :
-		kPathDelimiters[idel] == ch ? true :
-		false;
-}
-
-constexpr std::size_t filePathToFilePos(const char *file, std::size_t pos)
-{
-	return pos == 0 ? pos :
-		charIsPathDelimiter(file[pos]) ? pos :
-		pos - 1;
-}
-
-constexpr const char *filePathToFileImpl(const char *file, std::size_t pos)
-{
-	return file + filePathToFilePos(file, pos);
-}
-
 }  // namespace OhDebug
 
-# define ohdebugfilepathtofile(a) OhDebug::filePathToFileImpl(a, sizeof(a) - 1)
-# define ohdebugstringify__(a) #a
-# define ohdebugflimpl__(line) ohdebugfilepathtofile(__FILE__ ":" #line)
-# define ohdebugfl__(line) ohdebugflimpl__(line)
+// This don't take into account the null char
+#define OHDEBUG_COMPILE_TIME_CRC32_STR(x) (OhDebug::MM<sizeof(x)-1>::crc32(x))
 
-# define ohdebug0__(context, a, ...) \
-	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(ohdebugfl__(__LINE__)); \
-	OhDebug::ohDebugPrintGroup<OHDEBUG_COMPILE_TIME_CRC32_STR(#context)>(#context); \
-	ohdebug1__(OHDEBUG_COMPILE_TIME_CRC32_STR(#context), a, ## __VA_ARGS__)
+# define OHDEBUG_TAG_ENABLE(g) \
+	namespace OhDebug { \
+	template <> \
+	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(g)> : std::true_type { \
+	}; \
+	}  // namespace OhDebug
 
-# define ohdebug1__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug2__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug2__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug3__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug3__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug4__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug4__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug5__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug5__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug6__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug6__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug7__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug7__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug8__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug8__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug9__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug9__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug10__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug10__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug11__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug11__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug12__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug12__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug13__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug13__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug14__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug14__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug15__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug15__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug16__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug16__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug17__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug17__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug18__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug18__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug19__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug19__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebug20__(static_cast<unsigned>(context), ## __VA_ARGS__);
-# define ohdebug20__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	ohdebugend__(static_cast<unsigned>(context), ## __VA_ARGS__);
-#define ohdebug(...) ohdebug0__(__VA_ARGS__, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{}, OhDebug::Stub{})
+#define OHDEBUGFLIMPL__(line) OHDEBUG_PORT_PRINT(__FILE__, ":", #line)
+#define OHDEBUGFL__(line) OHDEBUGFLIMPL__(line)
+#define OHDEBUG_IS_ENABLED(ctx) (OhDebug::Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(ctx)>::value)
 
-
-# define ohdebugend__(context, a, ...) OhDebug::ohdebugImpl<static_cast<unsigned>(context)>(#a, a); \
-	OhDebug::ohDebugPrintNl<static_cast<unsigned>(context)>()
-
-# define ohdebugstr(context, a, ...) do {(void)a; } while (0); ohdebug(context, #a, ## __VA_ARGS__)
-
-# define ohdebugsecteveryn(ctx, bump, ...) \
+#ifdef OHDEBUG_PORT_ENABLE
+# define OHDEBUG(context, ...) \
 	do { \
-		if (OHDEBUG_CHECK_ENABLED_(ctx) && bump > 0) { \
-			static unsigned n = 0; \
-			if (n % bump == 0) { \
-				n = 0; \
-				__VA_ARGS__; \
-			} \
-			++n; \
-		} \
-	} while (0)
-
-#define ohdebugeveryn(ctx, bump, ...) ohdebugsecteveryn(ctx, bump, ohdebug(ctx, ## __VA_ARGS__); )
-
-# define ohdebugsectonce(ctx, hit, ...) \
-	do { \
-		if (OHDEBUG_CHECK_ENABLED_(ctx)) { \
-			static int n = 0; \
-			if (n == hit && hit >= 0) { \
-				__VA_ARGS__ ; \
-			}; \
-			++n; \
-		} \
-	} while (0)
-
-#define ohdebugonce(ctx, hit, ...) ohdebugsectonce(ctx, hit, ohdebug(ctx, ## __VA_ARGS__); )
-
-# define ohdebugsectif(ctx, cond, ...) \
-	do { \
-		if (OHDEBUG_CHECK_ENABLED_(ctx) && cond) { \
-			__VA_ARGS__ ; \
+		if (OHDEBUG_IS_ENABLED(context)) { \
+			OHDEBUG_PORT_PRINT("[" context "]", ## __VA_ARGS__); \
 		} \
 	} while(0)
-
-#define ohdebugif(ctx, cond, ...) ohdebugsectif(ctx, cond, ohdebug(ctx, ## __VA_ARGS__); )
-
-# define ohdebugsect(ctx, ...) \
-	do { \
-		if (OHDEBUG_CHECK_ENABLED_(ctx)) { \
-			__VA_ARGS__ ; \
-		} \
-	} while (0)
-
-# define ohdebugassert(ctx, cond, ...) \
-	do { \
-		if (OHDEBUG_CHECK_ENABLED_(ctx) && !(cond)) { \
-			ohdebug(ctx, "assertion triggered", #cond, ## __VA_ARGS__ ) ; \
-			assert(false); \
-		} \
-	} while(0)
-
 #else
-
-namespace OhDebug {
-struct Stub{};
-}  // namespace OhDebug
-
-
-
-# define ohdebug(...)
-# define ohdebugstr(ctx, str) (void)(str)
-# define ohdebuggroup(...)
-# define ohdebugassert(...)
-# define ohdebugsecteveryn(...)
-# define ohdebugeveryn(...)
-# define ohdebugsectif(...)
-# define ohdebugif(...)
-# define ohdebugsectonce(...)
-# define ohdebugonce(...)
-# define ohdebugsect(...)
-#endif
-
-#if defined(OHDEBUG_ENABLE_ALL_BY_DEFAULT)
-# undef OHDEBUG_ENABLE_ALL_BY_DEFAULT
-#endif
+# define OHDEBUG(...)
+#endif  // OHDEBUG_PORT_ENABLE
 
 #endif
