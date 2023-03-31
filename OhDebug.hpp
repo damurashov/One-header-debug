@@ -104,7 +104,8 @@ struct MM<size, size, dummy>{
 };
 
 template <unsigned G>
-struct Enabled : std::false_type {
+struct Enabled {
+	static constexpr bool value = false;
 };
 
 struct Stub {
@@ -118,7 +119,8 @@ struct Stub {
 # define OHDEBUG_TAG_ENABLE(g) \
 	namespace OhDebug { \
 	template <> \
-	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(g)> : std::true_type { \
+	struct Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(g)> { \
+		static constexpr bool value = true; \
 	}; \
 	}  // namespace OhDebug
 
