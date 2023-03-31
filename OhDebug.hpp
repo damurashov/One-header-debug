@@ -4,6 +4,23 @@
 // Created: 2022-09-06
 //  Author: Dmitry Murashov (dmtr <DOT> murashov <AT> GMAIL)
 //
+// Ohdebug is an answer to:
+//
+// ```
+// # if 1
+// # define debug(...) ...
+// ...
+// ```
+//
+// It enables one to perform ad-hoc fine-tuned debugging through defining
+// compile-time debug tags in string form.
+//
+// List of public defines:
+//
+// OHDEBUG_PORT_ENABLE - enables ohdebug
+// OHDEBUG_PORT_PRINT - used for overriding print function
+// OHDEBUG_TAG_ENABLE - used for dissecting debug output between tags
+// OHDEBUG - performs debug output itself
 
 #if !defined(ONE_HEADER_DEBUG_HPP_)
 #define ONE_HEADER_DEBUG_HPP_
