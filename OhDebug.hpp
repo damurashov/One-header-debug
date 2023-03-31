@@ -20,6 +20,7 @@
 // OHDEBUG_PORT_ENABLE - enables ohdebug
 // OHDEBUG_PORT_PRINT - used for overriding print function
 // OHDEBUG_TAG_ENABLE - used for dissecting debug output between tags
+// OHDEBUG_TAGS_ENABLE - for enabling multiple tags at once
 // OHDEBUG - performs debug output itself
 
 #if !defined(ONE_HEADER_DEBUG_HPP_)
@@ -155,5 +156,21 @@ struct Stub {
 #else
 # define OHDEBUG(...)
 #endif  // OHDEBUG_PORT_ENABLE
+
+#define OHDEBUG_TAGS_ENABLE_0(a) OHDEBUG_TAGS_ENABLE_1(a, "stub0", "stub1", "stub2", "stub3", "stub4", "stub5", "stub6", "stub7", "stub8", "stub9", "stub10")
+#define OHDEBUG_TAGS_ENABLE_1(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_2( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_2(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_3( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_3(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_4( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_4(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_5( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_5(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_6( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_6(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_7( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_7(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_8( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_8(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_9( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_9(a, ...) OHDEBUG_TAG_ENABLE(a) OHDEBUG_TAGS_ENABLE_10( __VA_ARGS__ )
+#define OHDEBUG_TAGS_ENABLE_10(...)
+
+#ifdef OHDEBUG_TAGS_ENABLE
+OHDEBUG_TAGS_ENABLE_0(OHDEBUG_TAGS_ENABLE)
+#endif
 
 #endif
