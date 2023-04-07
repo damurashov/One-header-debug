@@ -22,9 +22,13 @@
 // OHDEBUG_TAG_ENABLE - used for dissecting debug output between tags
 // OHDEBUG_TAGS_ENABLE - for enabling multiple tags at once
 // OHDEBUG - performs debug output itself
+// OHDEBUG_STRINGIFY - stringify anything, including comma-separated sequences
 
 #if !defined(ONE_HEADER_DEBUG_HPP_)
 #define ONE_HEADER_DEBUG_HPP_
+
+#define OHDEBUG_STRINGIFY_IMPL(...) #__VA_ARGS__
+#define OHDEBUG_STRINGIFY(...) OHDEBUG_STRINGIFY_IMPL(__VA_ARGS__)
 
 #if defined(OHDEBUG_PORT_ENABLE) && !defined(OHDEBUG_PORT_PRINT)
 # include <iostream>
