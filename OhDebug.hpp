@@ -23,12 +23,19 @@
 // OHDEBUG_TAGS_ENABLE - for enabling multiple tags at once
 // OHDEBUG - performs debug output itself
 // OHDEBUG_STRINGIFY - stringify anything, including comma-separated sequences
+// OHDEBUG_PORT_MAX_TESTS - maximum number of tests available for one object
+// OHDEBUG_TEST - define a test
+// OHDEBUG_RUN_TESTS - run unit tests
 
 #if !defined(ONE_HEADER_DEBUG_HPP_)
 #define ONE_HEADER_DEBUG_HPP_
 
 #define OHDEBUG_STRINGIFY_IMPL(...) #__VA_ARGS__
 #define OHDEBUG_STRINGIFY(...) OHDEBUG_STRINGIFY_IMPL(__VA_ARGS__)
+
+#ifndef OHDEBUG_PORT_MAX_TESTS
+#define OHDEBUG_PORT_MAX_TESTS 256
+#endif
 
 #if defined(OHDEBUG_PORT_ENABLE) && !defined(OHDEBUG_PORT_PRINT)
 # include <iostream>
@@ -130,6 +137,27 @@ struct Enabled {
 	static constexpr bool value = false;
 };
 
+template <unsigned I = 0>
+struct Test {
+	static Test<I> *tests[OHDEBUG_PORT_MAX_TESTS];
+
+	Test()
+	{
+		for (unsigned i = 0; i < OHDEBUG_PORT_MAX_TESTS; ++i) {
+			if (tests[i] == nullptr) {
+				tests[i] = this;
+
+				break;
+			}
+		}
+	}
+
+	virtual void run() = 0;
+};
+
+template <unsigned I>
+Test<I> *Test<I>::tests[OHDEBUG_PORT_MAX_TESTS] = {0};
+
 }  // namespace OhDebug
 
 // This don't take into account the null char
@@ -146,6 +174,8 @@ struct Enabled {
 #define OHDEBUGFLIMPL__(line) OHDEBUG_PORT_PRINT(__FILE__, ":", #line)
 #define OHDEBUGFL__(line) OHDEBUGFLIMPL__(line)
 #define OHDEBUG_IS_ENABLED(ctx) (OhDebug::Enabled<OHDEBUG_COMPILE_TIME_CRC32_STR(ctx)>::value)
+#define OHDEBUG_COMPILE_TIME_FILE_CRC32_IMPL(file) OHDEBUG_COMPILE_TIME_CRC32_STR(file)
+#define OHDEBUG_COMPILE_TIME_FILE_CRC32() OHDEBUG_COMPILE_TIME_FILE_CRC32_IMPL(__FILE__)
 
 #ifdef OHDEBUG_PORT_ENABLE
 # define OHDEBUG(context, ...) \
@@ -154,8 +184,21 @@ struct Enabled {
 			OHDEBUG_PORT_PRINT("[" context "]", ## __VA_ARGS__); \
 		} \
 	} while(0)
+# define OHDEBUG_TEST_IMPL2(name, file, line) \
+	static struct Test ## line : OhDebug::Test<0> { \
+		void run() override; \
+	} test ## line ; \
+	void Test ## line::run()
+# define OHDEBUG_TEST_IMPL(name, file, line) OHDEBUG_TEST_IMPL2(name, file, line)
+# define OHDEBUG_TEST(name) OHDEBUG_TEST_IMPL(name, __FILE__, __LINE__)
+# define OHDEBUG_RUN_TESTS() \
+	for (unsigned i = 0; OhDebug::Test<0>::tests[i] != nullptr && i < OHDEBUG_PORT_MAX_TESTS; ++i) { \
+		OhDebug::Test<0>::tests[i]->run(); \
+	}
 #else
 # define OHDEBUG(...)
+# define OHDEBUG_TEST(...)
+# define OHDEBUG_RUN_TESTS(...)
 #endif  // OHDEBUG_PORT_ENABLE
 
 #define OHDEBUG_TAGS_ENABLE_0(a) OHDEBUG_TAGS_ENABLE_1(a, "stub0", "stub1", "stub2", "stub3", "stub4", "stub5", "stub6", "stub7", "stub8", "stub9", "stub10")
