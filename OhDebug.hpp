@@ -140,8 +140,10 @@ struct Enabled {
 template <unsigned I = 0>
 struct Test {
 	static Test<I> *tests[OHDEBUG_PORT_MAX_TESTS];
+	const char *name;
 
-	Test()
+	Test(const char *aName) :
+		name{aName}
 	{
 		for (unsigned i = 0; i < OHDEBUG_PORT_MAX_TESTS; ++i) {
 			if (tests[i] == nullptr) {
@@ -186,15 +188,22 @@ Test<I> *Test<I>::tests[OHDEBUG_PORT_MAX_TESTS] = {0};
 	} while(0)
 # define OHDEBUG_TEST_IMPL2(name, file, line) \
 	static struct Test ## line : OhDebug::Test<0> { \
+		using OhDebug::Test<0>::Test; \
 		void run() override; \
-	} test ## line ; \
+	} test ## line (static_cast<const char *>(name)); \
 	void Test ## line::run()
 # define OHDEBUG_TEST_IMPL(name, file, line) OHDEBUG_TEST_IMPL2(name, file, line)
 # define OHDEBUG_TEST(name) OHDEBUG_TEST_IMPL(name, __FILE__, __LINE__)
 # define OHDEBUG_RUN_TESTS() \
-	for (unsigned i = 0; OhDebug::Test<0>::tests[i] != nullptr && i < OHDEBUG_PORT_MAX_TESTS; ++i) { \
-		OhDebug::Test<0>::tests[i]->run(); \
-	}
+	do { \
+		unsigned i = 0; \
+		for (; OhDebug::Test<0>::tests[i] != nullptr && i < OHDEBUG_PORT_MAX_TESTS; ++i) { \
+			OHDEBUG_PORT_PRINT("OhDebug running test", i + 1, ":", OhDebug::Test<0>::tests[i]->name, "..."); \
+			OhDebug::Test<0>::tests[i]->run(); \
+			OHDEBUG_PORT_PRINT("OhDebug finished test", i + 1, ":", OhDebug::Test<0>::tests[i]->name); \
+		} \
+		OHDEBUG_PORT_PRINT("OhDebug test succeeded, finished", i, "tests, no test has triggered an assert"); \
+	} while (0)
 #else
 # define OHDEBUG(...)
 # define OHDEBUG_TEST_IMPL2(line) static inline void dummyFunction ## line ()
