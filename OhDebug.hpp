@@ -56,6 +56,7 @@ static inline void print(T1 &&aArg, Ts &&...aArgs)
 
 }  // OhDebug
 
+/// Redefine this, if you want to use your own print function.
 # define OHDEBUG_PORT_PRINT(a1, ...) \
 	do { \
 		OhDebug::print(a1, ## __VA_ARGS__ ); \
@@ -64,7 +65,7 @@ static inline void print(T1 &&aArg, Ts &&...aArgs)
 
 namespace OhDebug {
 
-// Compile-time CRC32 on strings, courtesy of tower120
+// Compile-time CRC32, courtesy of tower120
 // https://stackoverflow.com/questions/2111667/compile-time-string-hashing
 // https://stackoverflow.com/users/1559666/tower120
 
@@ -114,7 +115,6 @@ static constexpr unsigned int crc_table[256] = {
 	0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-
 template<int size, int idx = 0, class dummy = void>
 struct MM{
 	static constexpr unsigned int crc32(const char * str, unsigned int prev_crc = 0xFFFFFFFF)
@@ -132,11 +132,17 @@ struct MM<size, size, dummy>{
 	}
 };
 
+/// Compile-time flag.
+/// \tparam `G` is calculated using constexpr CRC32 function from above,
+/// which is required, because it is not feasible to distinguish between
+/// entities using raw `const char *`
 template <unsigned G>
 struct Enabled {
 	static constexpr bool value = false;
 };
 
+/// Base class for tests. It has a static C array-based storage used as a
+/// registry table.
 template <unsigned I = 0>
 struct Test {
 	static Test<I> *tests[OHDEBUG_PORT_MAX_TESTS];
@@ -182,22 +188,22 @@ Test<I> *Test<I>::tests[OHDEBUG_PORT_MAX_TESTS] = {0};
 #ifdef OHDEBUG_PORT_ENABLE
 # define OHDEBUG(context, ...) \
 	do { \
-		if (OHDEBUG_IS_ENABLED(context)) { \
+		if (OHDEBUG_IS_ENABLED(context)) {  /* Check constexpr marker */ \
 			OHDEBUG_PORT_PRINT("[" context "]", ## __VA_ARGS__); \
 		} \
 	} while(0)
 # define OHDEBUG_TEST_IMPL2(name, file, line) \
-	static struct Test ## line : OhDebug::Test<0> { \
+	static struct Test ## line : OhDebug::Test<0> { /* Define a test instance with a unique name (see how `line` is used) */ \
 		using OhDebug::Test<0>::Test; \
 		void run() override; \
 	} test ## line (static_cast<const char *>(name)); \
-	void Test ## line::run()
-# define OHDEBUG_TEST_IMPL(name, file, line) OHDEBUG_TEST_IMPL2(name, file, line)
+	void Test ## line::run() /* User method definition {...} is expected here */
+# define OHDEBUG_TEST_IMPL(name, file, line) OHDEBUG_TEST_IMPL2(name, file, line) /* Use an additional level of indirection required to calculate values of `file` and `line` */
 # define OHDEBUG_TEST(name) OHDEBUG_TEST_IMPL(name, __FILE__, __LINE__)
 # define OHDEBUG_RUN_TESTS() \
 	do { \
 		unsigned i = 0; \
-		for (; OhDebug::Test<0>::tests[i] != nullptr && i < OHDEBUG_PORT_MAX_TESTS; ++i) { \
+		for (; OhDebug::Test<0>::tests[i] != nullptr && i < OHDEBUG_PORT_MAX_TESTS; ++i) { /* Iterate over `Test<...>` instances in the static storage */ \
 			OHDEBUG_PORT_PRINT("OhDebug running test", i + 1, ":", OhDebug::Test<0>::tests[i]->name, "..."); \
 			OhDebug::Test<0>::tests[i]->run(); \
 			OHDEBUG_PORT_PRINT("OhDebug finished test", i + 1, ":", OhDebug::Test<0>::tests[i]->name); \
@@ -205,6 +211,7 @@ Test<I> *Test<I>::tests[OHDEBUG_PORT_MAX_TESTS] = {0};
 		OHDEBUG_PORT_PRINT("OhDebug test succeeded, finished", i, "tests, no test has triggered an assert"); \
 	} while (0)
 #else
+// Debug stubs
 # define OHDEBUG(...)
 # define OHDEBUG_TEST_IMPL2(line) static inline void dummyFunction ## line ()
 # define OHDEBUG_TEST_IMPL(line) OHDEBUG_TEST_IMPL2(line)
