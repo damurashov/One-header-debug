@@ -1,7 +1,8 @@
+// Please note that those defines must go before `#include <OhDebug>`
 #define OHDEBUG_PORT_ENABLE
 #define OHDEBUG_TAGS_ENABLE "Echo2", "Echo3"
 
-#include "OhDebug.hpp"
+#include <OhDebug.hpp>
 #include <cassert>
 #include <cstring>
 
