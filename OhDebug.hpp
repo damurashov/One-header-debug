@@ -197,7 +197,9 @@ Test<I> *Test<I>::tests[OHDEBUG_PORT_MAX_TESTS] = {0};
 	}
 #else
 # define OHDEBUG(...)
-# define OHDEBUG_TEST(...)
+# define OHDEBUG_TEST_IMPL2(line) static inline void dummyFunction ## line ()
+# define OHDEBUG_TEST_IMPL(line) OHDEBUG_TEST_IMPL2(line)
+# define OHDEBUG_TEST(...) OHDEBUG_TEST_IMPL(__LINE__)
 # define OHDEBUG_RUN_TESTS(...)
 #endif  // OHDEBUG_PORT_ENABLE
 
