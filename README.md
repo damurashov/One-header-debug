@@ -3,45 +3,50 @@
 The ...
 
 ```c++
-#if 1 
+#if 1
 # include <iostream>
 # define debug(a) std::cout << (a) << std::endl
 #else
-# define debug(...) 
+# define debug(...)
 #endif
+``` ,
+
+and
+
+```c++
+void testFunction1 {
+  assert(true == 1);
+}
+
+using TestFunctionCallable = void(*)();
+
+static TestFunctionCallable sTests[] = {
+  testFunction1,
+};
+
+int main()
+{
+  for (auto test : tests) {
+    test();
+  }
+}
 ```
+... are no more.
 
-... is no more.
+# Why use it
 
-# TODO
+- It is only 239 lines of well documented source code;
+- It's simple: you can hack it all you want;
+- It's easy to use: just drop it with your files, no need to modify your build scripts;
 
-- Project, README
-  - Features
-    - Filtering
-	  - Debug / verbose
-	- Porting
-	  - Add an option to place hooks to replace std::cout calls w/ some
-		platform-dependent solution
-  - API description
-  - Use cases: what it is for
-  - The core mechanism
-  - Limitations
-  - Synchronized output
-- Glob expressions for topic filtering
-  - (OR) constexpr group checker: split and check a group word-by-word
-  - https://codereview.stackexchange.com/questions/108686/compile-time-wildcard-pattern-matching
-- API
-  - catch API: accumulate variables and produce an output only if a condition is not satisfied.
-    - Analagous assert API
-  - enabling: `ohdebug1`, `ohdebug0` instead of `ohdebuggroup`
-    - explicit enable/disable
-    - enable/disable override chains using compile-time counters (if compatible w/ msvs and gcc)
-- output
-  - (?) tabulated output (indents)
-  - shorten filename (absolute paths may be quite lengthy)
+And above all, it has no fool protection, meaning that it does not treat you as a fool.
 
 # How to use it
 
-Just drop it into your project. 
+1. Copy it
+2. Include it
 
-Once you've done with it, disable the macro, throw it away, or keep it for your grandchildren.
+# Limitations
+
+- C++11 is required;
+- It is not yet tested on MSVC;
