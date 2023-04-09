@@ -11,7 +11,7 @@ The ...
 #else
 # define debug(...)
 #endif
-``` ,
+```
 
 and
 
