@@ -44,8 +44,8 @@ int main()
 # How to use it
 
 1. Copy it
-2. Include it
-3. Define `OHDEBUG_PORT_ENABLE` and `OHDEBUG_TAGS_ENABLE` in your tracing / testing source
+2. Define `OHDEBUG_PORT_ENABLE` and `OHDEBUG_TAGS_ENABLE` in your tracing / testing source
+3. Include it
 
 # When to use it
 
