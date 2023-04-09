@@ -1,5 +1,7 @@
 # One Header Debug
 
+Meet one of the world's smallest tracing+testing.
+
 The ...
 
 ```c++
@@ -39,12 +41,16 @@ int main()
 - It's simple: you can hack it all you want;
 - It's easy to use: just drop it with your files, no need to modify your build scripts;
 
-And above all, it has no fool protection, meaning that it does not treat you as a fool.
-
 # How to use it
 
 1. Copy it
 2. Include it
+3. Define `OHDEBUG_PORT_ENABLE` and `OHDEBUG_TAGS_ENABLE` in your tracing / testing source
+
+# When to use it
+
+- You want to trace your program, while modifying as little code as possible when there is a need to shut down particularly verbose chunks in a fast way (compile-time tags);
+- You only want to test a small piece of your project;
 
 # Limitations
 
