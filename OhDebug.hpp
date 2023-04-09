@@ -130,9 +130,6 @@ struct Enabled {
 	static constexpr bool value = false;
 };
 
-struct Stub {
-};
-
 }  // namespace OhDebug
 
 // This don't take into account the null char
