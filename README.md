@@ -1,6 +1,6 @@
 # One Header Debug
 
-Meet one of the world's smallest tracing+testing helpers.
+Meet one of the world's smallest tracing+testing helper library.
 
 The ...
 
